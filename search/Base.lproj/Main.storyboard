@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13770" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="fzC-pD-nFu">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13770"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="Qnw-aU-TF1">
+            <objects>
+                <navigationController id="fzC-pD-nFu" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6fU-Y2-WV5">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Ykl-Zo-3B1"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wKY-JW-CHM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-126" y="274"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="search" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WZK-Jb-8HQ">
+                                <rect key="frame" x="0.0" y="124" width="375" height="543"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="c6O-WT-PTS">
+                                <rect key="frame" x="0.0" y="64" width="375" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="jGP-sS-3Kd"/>
+                                </constraints>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="WZK-Jb-8HQ" secondAttribute="bottom" id="2JC-PM-aUb"/>
+                            <constraint firstItem="WZK-Jb-8HQ" firstAttribute="top" secondItem="c6O-WT-PTS" secondAttribute="bottom" id="KCA-n0-P65"/>
+                            <constraint firstItem="WZK-Jb-8HQ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Mdg-EE-H0R"/>
+                            <constraint firstAttribute="trailing" secondItem="c6O-WT-PTS" secondAttribute="trailing" id="SOO-xh-1N9"/>
+                            <constraint firstItem="c6O-WT-PTS" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Ybz-0E-Oqt"/>
+                            <constraint firstItem="c6O-WT-PTS" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="aYZ-4G-c2u"/>
+                            <constraint firstItem="WZK-Jb-8HQ" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="phF-3u-wMZ"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Jy0-9n-ocv"/>
+                    <connections>
+                        <outlet property="searchBar" destination="c6O-WT-PTS" id="Mp4-sx-84M"/>
+                        <outlet property="tableView" destination="WZK-Jb-8HQ" id="YSb-rG-9wE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="796" y="274"/>
+        </scene>
+    </scenes>
+</document>
