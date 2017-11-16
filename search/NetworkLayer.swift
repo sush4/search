@@ -32,7 +32,12 @@ class NetworkLayer: NSObject {
                         
                             guard let dictionary = jsonResponse as? [String: Any], let userList = dictionary["items"] as? Array<Dictionary<String,Any>>, let name: [String] = userList.flatMap({ userList in
                                 userList["login"]}) as? [String] else{
-                                observer(.error(NSError()))
+                                
+                                    if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {
+                                        observer(.success([]))
+                                    } else {
+                                        observer(.error(NSError()))
+                                    }
                                     return
                             }
                             observer(.success(name))
