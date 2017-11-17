@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		857F97471FBDF8E3005761B9 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857F97461FBDF8E3005761B9 /* ViewModel.swift */; };
 		85B7F9081FBD49A80015EBAA /* NetworkLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B7F9071FBD49A80015EBAA /* NetworkLayer.swift */; };
 		85EA02841FBD470F0070B2CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EA02831FBD470F0070B2CD /* AppDelegate.swift */; };
 		85EA02861FBD470F0070B2CD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EA02851FBD470F0070B2CD /* ViewController.swift */; };
@@ -20,7 +21,9 @@
 		0C61499F09D291A3B9C668E9 /* Pods_search.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_search.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		218FF5BE713B6FD38DBCFA4F /* Pods-search.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-search.release.xcconfig"; path = "Pods/Target Support Files/Pods-search/Pods-search.release.xcconfig"; sourceTree = "<group>"; };
 		4CE956ACE8D61016F9B135FD /* Pods-search.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-search.debug.xcconfig"; path = "Pods/Target Support Files/Pods-search/Pods-search.debug.xcconfig"; sourceTree = "<group>"; };
+		857F97461FBDF8E3005761B9 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		85B7F9071FBD49A80015EBAA /* NetworkLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkLayer.swift; sourceTree = "<group>"; };
+		85E3C71D1FBF40FE00D73BF8 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		85EA02801FBD470F0070B2CD /* search.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = search.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85EA02831FBD470F0070B2CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		85EA02851FBD470F0070B2CD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -53,6 +56,7 @@
 		85EA02771FBD470F0070B2CD = {
 			isa = PBXGroup;
 			children = (
+				85E3C71D1FBF40FE00D73BF8 /* MyPlayground.playground */,
 				85EA02821FBD470F0070B2CD /* search */,
 				85EA02811FBD470F0070B2CD /* Products */,
 				AB4B9A7412D9D306350585D6 /* Pods */,
@@ -73,6 +77,7 @@
 			children = (
 				85EA02831FBD470F0070B2CD /* AppDelegate.swift */,
 				85EA02851FBD470F0070B2CD /* ViewController.swift */,
+				857F97461FBDF8E3005761B9 /* ViewModel.swift */,
 				85EA02871FBD470F0070B2CD /* Main.storyboard */,
 				85EA028A1FBD470F0070B2CD /* Assets.xcassets */,
 				85EA028C1FBD470F0070B2CD /* LaunchScreen.storyboard */,
@@ -215,6 +220,7 @@
 			files = (
 				85B7F9081FBD49A80015EBAA /* NetworkLayer.swift in Sources */,
 				85EA02861FBD470F0070B2CD /* ViewController.swift in Sources */,
+				857F97471FBDF8E3005761B9 /* ViewModel.swift in Sources */,
 				85EA02841FBD470F0070B2CD /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

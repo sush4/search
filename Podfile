@@ -8,5 +8,8 @@ target 'search' do
   # Pods for search
 pod 'RxSwift'
 pod 'SVProgressHUD'
+pod 'RxDataSources'
+pod 'RxAlamofire'
+pod 'Moya'
 
 end

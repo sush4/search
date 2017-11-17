@@ -6,53 +6,29 @@
 //  Copyright © 2017 Sushant kumar. All rights reserved.
 //
 
-import UIKit
-import RxSwift
 import Foundation
+import RxAlamofire
+import RxSwift
+import Moya
 
 class NetworkLayer: NSObject {
 
     static func searchUser(user:String) -> Single<[String]> {
         
+        let path = "https://api.github.com/search/users"
+        let query: [String: Any] = ["q":user,
+                     "sort":"followers"]
         
-          return Single.create { observer in
-            let q = user.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
-            let path = "https://api.github.com/search/users?q=\(q)&sort=followers"
-            let url :URL = URL(string: path)!
-            var request = URLRequest(url: url)
-            
-                request.httpMethod = "GET"
-                let session = URLSession.shared
-            
-                session.dataTask(with: request) {data, response, err in
-                    if let list = data {
-                        do {
-                        
-                        let jsonResponse = try JSONSerialization.jsonObject(with: list, options: .mutableContainers)
-                        
-                            guard let dictionary = jsonResponse as? [String: Any], let userList = dictionary["items"] as? Array<Dictionary<String,Any>>, let name: [String] = userList.flatMap({ userList in
-                                userList["login"]}) as? [String] else{
-                                
-                                    if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {
-                                        observer(.success([]))
-                                    } else {
-                                        observer(.error(NSError()))
-                                    }
-                                    return
-                            }
-                            observer(.success(name))
-            
-                        } catch let myJSONError {
-                            observer(.error(myJSONError))
-                        }
-                    } else {
-                            observer(.error(err ?? NSError()))
-                    }
-                    
-                }.resume()
-                return Disposables.create()
-                }.subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-                .observeOn(MainScheduler.instance)
-        
+        return RxAlamofire.requestJSON(.get,path, parameters: query).debug().map{ result in
+            guard let data = result.1 as? [String:Any], let list = data["items"] as? [[String:Any]] else {
+                return []
+            }
+            return list.flatMap({ user -> String? in
+                if let name = user["login"] as? String {
+                    return name
+                } else {
+                    return nil
+                }
+            })}.asSingle()
     }
 }

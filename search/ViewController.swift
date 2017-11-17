@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 import SVProgressHUD
 
 class ViewController: UIViewController {
@@ -17,6 +18,8 @@ class ViewController: UIViewController {
     private let CellReuseIdentifier = "tableViewCell"
     private var userList: Array<String> = Array()
     private let disposeBag = DisposeBag()
+    private let viewModel: ViewModel = ViewModel()
+    private let refresh = UIRefreshControl.init()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,16 +28,35 @@ class ViewController: UIViewController {
     }
     
     private func setUpView() {
+        
         searchBar.delegate = self
         searchBar.placeholder = "Search Git Users"
-        tableView.delegate = self
-        tableView.dataSource = self
         tableView.tableFooterView = UIView(frame: CGRect.zero)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: CellReuseIdentifier)
+        tableView.addSubview(refresh)
+        weak var weakSelf = self
+        
+        refresh.addTarget(self, action:  #selector(ViewController.refreshList), for: .valueChanged)
+        
+        viewModel.list.asObservable().bind(to: tableView.rx.items(cellIdentifier: CellReuseIdentifier)){
+            index, name, cell in
+            cell.textLabel?.text = name
+            }.disposed(by: disposeBag)
+        
+        viewModel.dismiss.asObserver().subscribe(onNext: { ACTION in
+            SVProgressHUD.dismiss()
+            weakSelf?.refresh.endRefreshing()
+        }).disposed(by: disposeBag)
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    @objc func refreshList() {
+        refresh.beginRefreshing()
+        viewModel.searchUser(query: searchBar.text ?? "")
     }
 
 }
@@ -43,32 +65,7 @@ extension ViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         SVProgressHUD.show()
-        let result = NetworkLayer.searchUser(user: searchText)
-        result.subscribe(onSuccess: { list in
-            self.userList = list
-            self.tableView.reloadData()
-            SVProgressHUD.dismiss()
-        }) { err in
-            SVProgressHUD.showError(withStatus: "Error occurred")
-        }.disposed(by: disposeBag)
-    }
-    
-}
-
-extension ViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return userList.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CellReuseIdentifier, for: indexPath)
-        cell.textLabel?.text = userList[indexPath.row]
-        return cell
+        viewModel.searchUser(query: searchText)
     }
     
 }
