@@ -7,20 +7,29 @@
 //
 
 import Foundation
-import RxAlamofire
 import RxSwift
 import Moya
 
 class NetworkLayer: NSObject {
 
-    static func searchUser(user:String) -> Single<[String]> {
+    private static func JSONResponseDataFormatter(_ data: Data) -> Data {
+        do {
+            let dataAsJSON = try JSONSerialization.jsonObject(with: data)
+            let prettyData =  try JSONSerialization.data(withJSONObject: dataAsJSON, options: .prettyPrinted)
+            return prettyData
+        } catch {
+            return data // fallback to original data if it can't be serialized.
+        }
+    }
+    
+    
+    static let gitHubProvider = MoyaProvider<GitHub>(plugins: [NetworkLoggerPlugin(verbose: true, responseDataFormatter: JSONResponseDataFormatter)])
+    
+    static func searchUser(user:String) -> Observable<[String]> {
         
-        let path = "https://api.github.com/search/users"
-        let query: [String: Any] = ["q":user,
-                     "sort":"followers"]
-        
-        return RxAlamofire.requestJSON(.get,path, parameters: query).debug().map{ result in
-            guard let data = result.1 as? [String:Any], let list = data["items"] as? [[String:Any]] else {
+        return gitHubProvider.rx.request(GitHub.userProfile(user)).debug().map { result in
+            
+            guard let data = try result.mapJSON() as? [String:Any], let list = data["items"] as? [[String:Any]] else {
                 return []
             }
             return list.flatMap({ user -> String? in
@@ -29,6 +38,7 @@ class NetworkLayer: NSObject {
                 } else {
                     return nil
                 }
-            })}.asSingle()
-    }
+            })}.asObservable()
+        }
+
 }

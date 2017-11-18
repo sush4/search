@@ -29,12 +29,17 @@ class ViewController: UIViewController {
     
     private func setUpView() {
         
-        searchBar.delegate = self
         searchBar.placeholder = "Search Git Users"
+        weak var weakSelf = self
+        
+        searchBar.rx.text.orEmpty.changed.throttle(0.3, scheduler: MainScheduler.asyncInstance).asObservable().subscribe(onNext: { test in
+            SVProgressHUD.show()
+            weakSelf?.search()
+        }).disposed(by: disposeBag)
+        
         tableView.tableFooterView = UIView(frame: CGRect.zero)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: CellReuseIdentifier)
         tableView.addSubview(refresh)
-        weak var weakSelf = self
         
         refresh.addTarget(self, action:  #selector(ViewController.refreshList), for: .valueChanged)
         
@@ -46,6 +51,9 @@ class ViewController: UIViewController {
         viewModel.dismiss.asObserver().subscribe(onNext: { ACTION in
             SVProgressHUD.dismiss()
             weakSelf?.refresh.endRefreshing()
+        },onError: { err in
+            SVProgressHUD.showError(withStatus: err.localizedDescription)
+            weakSelf?.refresh.endRefreshing()
         }).disposed(by: disposeBag)
         
     }
@@ -56,17 +64,12 @@ class ViewController: UIViewController {
     
     @objc func refreshList() {
         refresh.beginRefreshing()
+        search()
+    }
+    
+    func search(){
         viewModel.searchUser(query: searchBar.text ?? "")
     }
 
-}
-
-extension ViewController: UISearchBarDelegate {
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        SVProgressHUD.show()
-        viewModel.searchUser(query: searchText)
-    }
-    
 }
 

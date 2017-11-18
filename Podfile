@@ -9,7 +9,6 @@ target 'search' do
 pod 'RxSwift'
 pod 'SVProgressHUD'
 pod 'RxDataSources'
-pod 'RxAlamofire'
-pod 'Moya'
+pod 'Moya/RxSwift'
 
 end
