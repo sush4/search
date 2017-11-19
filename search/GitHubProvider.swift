@@ -16,11 +16,18 @@ enum GitHub{
 extension GitHub: TargetType{
     
     var path: String {
-        return "/search/users"
+        switch self {
+        case .userProfile( _):
+            return "/search/users"
+        }
+        
     }
     
     var method: Moya.Method {
-        return .get
+        switch self {
+        case .userProfile( _):
+            return .get
+        }
     }
     
     var sampleData: Data {
@@ -38,7 +45,10 @@ extension GitHub: TargetType{
     }
     
     var headers: [String : String]? {
-        return nil
+        switch self {
+        case .userProfile( _):
+            return nil
+        }
     }
     
     public var baseURL: URL { return URL(string: "https://api.github.com")! }
